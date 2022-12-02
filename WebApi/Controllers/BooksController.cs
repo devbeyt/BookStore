@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebApi.BookOperations.CreateBook;
+using WebApi.BookOperations.GetBooks;
 using WebApi.DBOperations;
 
 namespace WebApi.Controllers
@@ -26,10 +28,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("getall")]
-        public List<Book> GetBooks()
+        public IActionResult GetBooks()
         {
-            var books = _context.Books.OrderBy(b=>b.Id).ToList<Book>(); // Linq
-            return books;
+            GetBooksQuery query = new GetBooksQuery(_context);
+            var result = query.Handle();
+            return Ok(result);
         }
 
         //[HttpGet("{id}")]
@@ -48,17 +51,21 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddBook([FromBody]Book newBook)
+        public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
-            var bookExist = _context.Books.SingleOrDefault(b => b.Title == newBook.Title);
-
-            if(bookExist is not null)
+            CreateBookCommand command = new CreateBookCommand(_context);
+            try
             {
-                return BadRequest();
+                command.Model = newBook;
+                command.Handle();
             }
-            _context.Books.Add(newBook);
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
             return Ok();
+            
         }
 
         [HttpPut("update")]

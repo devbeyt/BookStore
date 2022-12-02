@@ -19,13 +19,13 @@ namespace WebApi.DBOperations
                      (
                      new Book 
                      {
-                         Id = 1, 
+                         //Id = 1, 
                          Title = "Learn Html",
                          GenreId = 1, PageCount = 250,
                          PublisDate = new DateTime(2022, 5, 21) 
                      },
                      new Book 
-                     {   Id = 2, 
+                     {   //Id = 2, 
                          Title = "Cyber security",
                          GenreId = 2,
                          PageCount = 300,
@@ -33,7 +33,7 @@ namespace WebApi.DBOperations
                      },
                      new Book 
                      { 
-                         Id = 3,
+                         //Id = 3,
                          Title = "Unity", 
                          GenreId = 1,
                          PageCount = 120,
