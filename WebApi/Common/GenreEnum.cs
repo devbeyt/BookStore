@@ -2,8 +2,9 @@
 {
     public enum GenreEnum
     {
-        PersonalGrowth = 1,
-        ScienceFiction,
+        Dedektif = 1,
+        FrontEnd,
+        Backend,
         Noval,
     }
 }
