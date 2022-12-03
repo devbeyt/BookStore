@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using WebApi.Common;
 using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.GetBook
@@ -25,7 +26,7 @@ namespace WebApi.BookOperations.GetBook
             wm.Title = book.Title;
             wm.PageCount = book.PageCount;
             wm.PublishDate = book.PublisDate.Date.ToString("dd/MM/yyy");
-            wm.Genre = book.GenreId.ToString();
+            wm.Genre = ((GenreEnum)book.GenreId).ToString();
             return wm;
         }
     }
