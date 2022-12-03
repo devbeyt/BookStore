@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebApi.DBOperations;
@@ -10,10 +11,12 @@ namespace WebApi.BookOperations.CreateBook
         public CreateBookModel Model { get; set; } // entity from ui
 
         private readonly BookStoreDBContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public CreateBookCommand(BookStoreDBContext dbContext)
+        public CreateBookCommand(BookStoreDBContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public void Handle()
@@ -24,11 +27,13 @@ namespace WebApi.BookOperations.CreateBook
             {
                 throw new InvalidOperationException("Bu kitab zaten mevcuddur.");
             }
-            book = new Book();
-            book.Title = Model.Title;
-            book.PublisDate = Model.PublishDate;
-            book.PageCount = Model.PageCount;
-            book.GenreId = Model.GenreId;
+            book = _mapper.Map<Book>(Model);
+
+            //book = new Book();
+            //book.Title = Model.Title;
+            //book.PublisDate = Model.PublishDate;
+            //book.PageCount = Model.PageCount;
+            //book.GenreId = Model.GenreId;
 
 
             _dbContext.Books.Add(book);

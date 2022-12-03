@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Linq;
 using WebApi.Common;
 using WebApi.DBOperations;
@@ -8,11 +9,13 @@ namespace WebApi.BookOperations.GetBook
     public class GetBookDetailsQuery
     {
         private readonly BookStoreDBContext _dbContext;
+        private readonly IMapper _mapper;
         public int BookId { get; set; }
 
-        public GetBookDetailsQuery(BookStoreDBContext dbContext)
+        public GetBookDetailsQuery(BookStoreDBContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public BookDetailsViewModel Handle()
@@ -22,11 +25,7 @@ namespace WebApi.BookOperations.GetBook
             {
                 throw new InvalidOperationException("Kitab tapilmadi!");
             }
-            BookDetailsViewModel wm = new BookDetailsViewModel();
-            wm.Title = book.Title;
-            wm.PageCount = book.PageCount;
-            wm.PublishDate = book.PublisDate.Date.ToString("dd/MM/yyy");
-            wm.Genre = ((GenreEnum)book.GenreId).ToString();
+            BookDetailsViewModel wm = _mapper.Map<BookDetailsViewModel>(book);
             return wm;
         }
     }
