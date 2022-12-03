@@ -10,6 +10,7 @@ using WebApi.BookOperations.GetBook;
 using WebApi.BookOperations.GetBooks;
 using WebApi.BookOperations.UpdateBook;
 using WebApi.DBOperations;
+using WebApi.Validation;
 
 namespace WebApi.Controllers
 {
@@ -74,6 +75,7 @@ namespace WebApi.Controllers
             try
             {
                 command.Model = newBook;
+                ValidationTool.Validate(new CreateBookCommandValidator(),command);
                 command.Handle();
             }
             catch (Exception ex)
