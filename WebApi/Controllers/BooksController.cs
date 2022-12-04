@@ -54,35 +54,23 @@ namespace WebApi.Controllers
         public IActionResult GetById(int id)
         {
             BookDetailsViewModel result;
-            try
-            {
+
                 GetBookDetailsQuery query = new GetBookDetailsQuery(_context,_mapper);
                 query.BookId = id;
                 result = query.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-            return Ok(result);
+              
+                return Ok(result);
         }
 
         [HttpPost("add")]
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
             CreateBookCommand command = new CreateBookCommand(_context,_mapper);
-            try
-            {
+  
                 command.Model = newBook;
                 ValidationTool.Validate(new CreateBookCommandValidator(),command);
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
+         
             return Ok();
             
         }
@@ -91,36 +79,25 @@ namespace WebApi.Controllers
         public IActionResult UpdateBook(int id,[FromBody] UpdateBookModel updatedBook)
         {
             
-            try
-            {
+
                 UpdateBookCommand command = new UpdateBookCommand(_context);
                 command.BookId = id;
                 command.Model = updatedBook;
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
 
-                return BadRequest(ex.Message);
-            }
-            return Ok();
+                return Ok();
         }
 
 
         [HttpDelete("delete")]        
         public IActionResult DeleteBook(int id)
         {
-            try
-            {
+
                 DeleteBookCommand command = new DeleteBookCommand(_context);
                 command.BookId = id;
                 command.Handle();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            return Ok();
+               
+                return Ok();
         }
         
 

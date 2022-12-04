@@ -14,6 +14,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.DBOperations;
+using WebApi.Middlewares;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -38,6 +40,7 @@ namespace WebApi
 
             services.AddDbContext<BookStoreDBContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddSingleton<ILoggerService, ConsoleLogger>();
         
         }
 
@@ -56,6 +59,8 @@ namespace WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCustomExceptionMiddle(); // logs of requests..
 
             app.UseEndpoints(endpoints =>
             {
